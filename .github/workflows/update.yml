@@ -2,12 +2,16 @@ name: Update Chachi Sun NFT
 
 on:
   schedule:
-    # This cron syntax means "Run at minute 0 past every hour"
+    # Runs at minute 0 past every hour
     - cron: '0 * * * *'
-  workflow_dispatch: # This allows you to click a button to run it manually!
+  workflow_dispatch: # Allows you to click a button to run it manually!
 
 permissions:
-  contents: write # This allows the bot to save the updated JSON back to your repo
+  contents: write # This gives the bot permission to save the new JSON files
+
+env:
+  # This silences the Node.js warning you saw earlier
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   update-metadata:
@@ -27,13 +31,16 @@ jobs:
       - name: Run the update script
         run: python update_nft.py
 
-      - name: Commit and push changes (if any)
+      - name: Commit and push changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add state.json metadata/chachi_001.json
           
-          # This line checks if there are actually changes to save before committing
-          git diff --quiet && git diff --staged --quiet || git commit -m "🌱 Auto-update NFT metadata"
+          # Force add all new or changed files
+          git add -A
           
+          # Commit the files, or gracefully skip if nothing changed
+          git commit -m "🌱 Auto-update NFT metadata" || echo "No changes to commit"
+          
+          # Push the saved files back to your repository
           git push

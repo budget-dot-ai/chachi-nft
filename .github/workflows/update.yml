@@ -1,0 +1,39 @@
+name: Update Chachi Sun NFT
+
+on:
+  schedule:
+    # This cron syntax means "Run at minute 0 past every hour"
+    - cron: '0 * * * *'
+  workflow_dispatch: # This allows you to click a button to run it manually!
+
+permissions:
+  contents: write # This allows the bot to save the updated JSON back to your repo
+
+jobs:
+  update-metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run the update script
+        run: python update_nft.py
+
+      - name: Commit and push changes (if any)
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add state.json metadata/chachi_001.json
+          
+          # This line checks if there are actually changes to save before committing
+          git diff --quiet && git diff --staged --quiet || git commit -m "🌱 Auto-update NFT metadata"
+          
+          git push

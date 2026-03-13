@@ -1,0 +1,26 @@
+{
+    "format": "CHIP-0007",
+    "name": "Chachi Sun - Sprout",
+    "description": "An evolving Chachi Sun NFT that resets upon trading.",
+    "attributes": [
+        {
+            "trait_type": "Growth Stage",
+            "value": "Sprout"
+        },
+        {
+            "trait_type": "Level",
+            "value": 1
+        },
+        {
+            "trait_type": "Age (Days)",
+            "value": 0
+        }
+    ],
+    "collection": {
+        "name": "Chachi Sun Evolution",
+        "id": "chachi_sun_collection"
+    },
+    "uris": [
+        "ipfs://bafybeiafimixsflngcez3wj6uhbxb5rj323fcfoavh42ulevvqexnz624/1-chachi-sun-sprout-RS.png"
+    ]
+}
